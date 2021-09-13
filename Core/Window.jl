@@ -4,9 +4,10 @@ import GLFW, ModernGL
 import Base:String, UInt
 import WindowInput
 
-export WindowProps, NativeWindow, Init, Shutdown, Update, ShouldClose
+export WindowProps, GetNativeWindow, Init, Shutdown, Update, ShouldClose
 
 mNativeWindow = missing
+mMonitor = missing
 
 struct WindowProps
     width::UInt16
@@ -20,15 +21,18 @@ end
 
 function Init(props::WindowProps=WindowProps())
     GLFW.Init() != true && error("Failed to initialize GLFW")
+
     GLFW.WindowHint(GLFW.CONTEXT_VERSION_MAJOR, 3)
     GLFW.WindowHint(GLFW.CONTEXT_VERSION_MINOR, 3)
     GLFW.WindowHint(GLFW.OPENGL_PROFILE, GLFW.OPENGL_CORE_PROFILE)
+
+    global mMonitor = GLFW.GetPrimaryMonitor()
 
     global mNativeWindow = GLFW.CreateWindow(props.width, props.height, props.name)
     mNativeWindow == C_NULL && error("Failed to create GLFW window context")
 
     GLFW.MakeContextCurrent(mNativeWindow)
-
+    
     WindowInput.RegisterInputCallbacks(mNativeWindow)
 end
 
@@ -45,8 +49,16 @@ function ShouldClose()
     GLFW.WindowShouldClose(mNativeWindow)
 end
 
-function NativeWindow()
+function GetNativeWindow()
     mNativeWindow
+end
+
+function SetFullscreen(fullscreen::Bool)
+    if fullscreen
+        GLFW.make_fullscreen(mNativeWindow, mMonitor)
+    else
+        GLFW.make_windowed(mNativeWindow)
+    end
 end
 
 # 

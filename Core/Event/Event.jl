@@ -29,6 +29,7 @@ abstract type EventData end
 
 include("KeyEvent.jl")
 include("MouseEvent.jl")
+include("WindowEvent.jl")
 
 # List of event listeners
 mListeners = Array{Function}(undef, 0)

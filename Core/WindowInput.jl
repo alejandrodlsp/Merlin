@@ -1,6 +1,6 @@
 module WindowInput
 
-import GLFW
+import GLFW, ModernGL
 import Event
 
 export RegisterInputCallbacks
@@ -44,11 +44,36 @@ end
 # 
 # 
 # 
+function OnWindowCloseCallback(window::GLFW.Window)
+    Event.Dispatch(Event.WindowCloseEvent())
+end
+
+# 
+# 
+# 
+function OnWindowSizeCallback(window::GLFW.Window, width::Cint, height::Cint)
+    glViewport(0, 0, width, height) # TODO: Move viewport resize call to renderer
+    Event.Dispatch(Event.WindowSizeEvent(width, height))
+end
+
+# 
+# 
+# 
+function OnWindowMovedCallback(window::GLFW.Window, posx::Cint, posy::Cint)
+    Event.Dispatch(Event.WindowMovedEvent(posx, posy))
+end
+
+# 
+# 
+# 
 function RegisterInputCallbacks(window::GLFW.Window)
     GLFW.SetKeyCallback(window, OnKeyCallback)
     GLFW.SetCursorPosCallback(window, OnMouseMovedCallback)
     GLFW.SetMouseButtonCallback(window, OnMouseButtonCallback)
     GLFW.SetScrollCallback(window, OnMouseScrollCallback)
+    GLFW.SetWindowCloseCallback(window, OnWindowCloseCallback)
+    GLFW.SetFramebufferSizeCallback(window, OnWindowSizeCallback)
+    GLFW.SetWindowPosCallback(window, OnWindowMovedCallback)
 end
 
 

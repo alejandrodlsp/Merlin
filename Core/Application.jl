@@ -7,7 +7,6 @@ import Event
 Window.Init(Window.WindowProps(UInt16(1000), UInt16(1000), "ASd"))
 
 function onEvent(e)
-    println("Event recieved: ")
     println(e.type)
 end
 
