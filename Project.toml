@@ -1,0 +1,9 @@
+authors = ["Alejandro de los Santos <alejandrodlsp@hotmail.es>"]
+
+name = "Merlin"
+
+version = "0.0.1"
+
+[deps]
+GLFW = "f7f18e0c-5ee9-5ccd-a5bf-e8befd85ed98"
+ModernGL = "66fc600b-dfda-50eb-8b99-91cfa97b1301"
