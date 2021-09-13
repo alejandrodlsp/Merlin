@@ -2,6 +2,7 @@
 ArgTools = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
 Artifacts = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
 Base64 = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
+ConfigEnv = "01234589-554d-41b7-ae5c-7b6ee2db6796"
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
 Downloads = "f43a241f-c20a-4ad4-852c-f6b1247861c6"
 GLFW = "f7f18e0c-5ee9-5ccd-a5bf-e8befd85ed98"

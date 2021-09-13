@@ -9,6 +9,11 @@ uuid = "56f22d72-fd6d-98f1-02f0-08ddc0907c33"
 [[Base64]]
 uuid = "2a0f44e3-6c83-55bd-87e4-b1978d98bd5f"
 
+[[ConfigEnv]]
+git-tree-sha1 = "1891cfd27ae8256e4e69574c93dc0d6eb839903e"
+uuid = "01234589-554d-41b7-ae5c-7b6ee2db6796"
+version = "1.0.0"
+
 [[Dates]]
 deps = ["Printf"]
 uuid = "ade2ca70-3891-5945-98fb-dc099432e06a"
