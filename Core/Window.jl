@@ -20,21 +20,27 @@ struct WindowProps
 end
 
 function Init(props::WindowProps=WindowProps())
-    GLFW.Init() != true && error("Failed to initialize GLFW")
+    try
+        GLFW.Init() != true && error("Failed to initialize GLFW")
 
-    GLFW.WindowHint(GLFW.CONTEXT_VERSION_MAJOR, 3)
-    GLFW.WindowHint(GLFW.CONTEXT_VERSION_MINOR, 3)
-    GLFW.WindowHint(GLFW.OPENGL_PROFILE, GLFW.OPENGL_CORE_PROFILE)
-    GLFW.WindowHint(GLFW.OPENGL_FORWARD_COMPAT, true)
+        GLFW.WindowHint(GLFW.CONTEXT_VERSION_MAJOR, 3)
+        GLFW.WindowHint(GLFW.CONTEXT_VERSION_MINOR, 3)
+        GLFW.WindowHint(GLFW.OPENGL_PROFILE, GLFW.OPENGL_CORE_PROFILE)
+        GLFW.WindowHint(GLFW.OPENGL_FORWARD_COMPAT, true)
     
-    global mMonitor = GLFW.GetPrimaryMonitor()
+        global mMonitor = GLFW.GetPrimaryMonitor()
 
-    global mNativeWindow = GLFW.CreateWindow(props.width, props.height, props.name)
-    mNativeWindow == C_NULL && error("Failed to create GLFW window context")
+        global mNativeWindow = GLFW.CreateWindow(props.width, props.height, props.name)
+        mNativeWindow == C_NULL && error("Failed to create GLFW window context")
 
-    GLFW.MakeContextCurrent(mNativeWindow)
+        GLFW.MakeContextCurrent(mNativeWindow)
     
-    WindowInput.RegisterInputCallbacks(mNativeWindow)
+        WindowInput.RegisterInputCallbacks(mNativeWindow)
+    catch e
+        # TODO Log error
+        Shutdown()
+        throw(e)
+    end
 end
 
 function Update()
