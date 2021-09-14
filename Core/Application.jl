@@ -1,17 +1,38 @@
+module Application
+
 using ModernGL
 
 import Logger
 import Window
 
-Logger.Init()
-Window.Init(Window.WindowProps(UInt16(1000), UInt16(1000), "ASd"))
+mCloseRequested = false
 
-while !Window.ShouldClose()
-    Window.Update()
-    glClearColor(0.2, 0.3, 0.3, 1.0)
-    glClear(GL_COLOR_BUFFER_BIT)
+function Run()
+    Init()
+
+    while !ShouldClose()
+        Window.Update()
+        glClearColor(0.2, 0.3, 0.3, 1.0)
+        glClear(GL_COLOR_BUFFER_BIT)
+    end
+
+    Shutdown()
 end
 
-Window.Shutdown()
-Logger.Shutdown()
+function Init()
+    Logger.Init()
+    Window.Init(Window.WindowProps(UInt16(1200), UInt16(800), "Merlin Engine"))
+end
 
+function Shutdown()
+    mCloseRequested = true
+    Window.Shutdown()
+    Logger.Shutdown()
+end
+
+function ShouldClose()
+    mCloseRequested || Window.ShouldClose()
+end
+
+# module
+end

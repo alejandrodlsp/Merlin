@@ -12,3 +12,4 @@ dotenv()
 
 # Include main application
 include("Core/Application.jl")
+Application.Run()
