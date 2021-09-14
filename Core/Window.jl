@@ -25,7 +25,8 @@ function Init(props::WindowProps=WindowProps())
     GLFW.WindowHint(GLFW.CONTEXT_VERSION_MAJOR, 3)
     GLFW.WindowHint(GLFW.CONTEXT_VERSION_MINOR, 3)
     GLFW.WindowHint(GLFW.OPENGL_PROFILE, GLFW.OPENGL_CORE_PROFILE)
-
+    GLFW.WindowHint(GLFW.OPENGL_FORWARD_COMPAT, true)
+    
     global mMonitor = GLFW.GetPrimaryMonitor()
 
     global mNativeWindow = GLFW.CreateWindow(props.width, props.height, props.name)
