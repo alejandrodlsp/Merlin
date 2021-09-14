@@ -9,6 +9,10 @@ export WindowProps, GetNativeWindow, Init, Shutdown, Update, ShouldClose
 mNativeWindow = missing
 mMonitor = missing
 
+struct WindowException <: Exception
+    var::String
+end
+
 struct WindowProps
     width::UInt16
     height::UInt16
@@ -21,7 +25,7 @@ end
 
 function Init(props::WindowProps=WindowProps())
     try
-        GLFW.Init() != true && error("Failed to initialize GLFW")
+        GLFW.Init() != true && thrown(WindowException("Failed to initialize GLFW"))
 
         GLFW.WindowHint(GLFW.CONTEXT_VERSION_MAJOR, 3)
         GLFW.WindowHint(GLFW.CONTEXT_VERSION_MINOR, 3)
@@ -31,15 +35,14 @@ function Init(props::WindowProps=WindowProps())
         global mMonitor = GLFW.GetPrimaryMonitor()
 
         global mNativeWindow = GLFW.CreateWindow(props.width, props.height, props.name)
-        mNativeWindow == C_NULL && error("Failed to create GLFW window context")
+        mNativeWindow == C_NULL && thrown(WindowException("Failed to create GLFW window context"))
 
         GLFW.MakeContextCurrent(mNativeWindow)
     
         WindowInput.RegisterInputCallbacks(mNativeWindow)
     catch e
-        # TODO Log error
         Shutdown()
-        throw(e)
+        @error "Error encountered when setting up window: " e
     end
 end
 

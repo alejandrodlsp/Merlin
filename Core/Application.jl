@@ -1,16 +1,12 @@
 using ModernGL
 
-# import Event
+import Logger
 import Window
-import Event
 
+Logger.Init()
 Window.Init(Window.WindowProps(UInt16(1000), UInt16(1000), "ASd"))
 
-function onEvent(e)
-    println(e.type)
-end
-
-Event.RegisterListener(onEvent)
+@debug "Test"
 
 while !Window.ShouldClose()
     Window.Update()
@@ -19,5 +15,5 @@ while !Window.ShouldClose()
 end
 
 Window.Shutdown()
-
+Logger.Shutdown()
 
