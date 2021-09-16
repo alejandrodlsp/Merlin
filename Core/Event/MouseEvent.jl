@@ -5,29 +5,29 @@
     export MouseMovedEventData, MouseButtonEventData, MouseScrollEventData
 
     struct MouseMovedEventData <: EventData
-        type
+        type::Event.EventType
         posx::Float64
         posy::Float64
-        category
+        category::Event.EventCategory
 
-        MouseMovedEventData(posx, posy) = new(EventTypeMouseMoved, posx, posy, (S_MOUSE | S_INPUT)::EventCategory)
+        MouseMovedEventData(posx::Float64, posy::Float64) = new(EventTypeMouseMoved, posx, posy, (S_MOUSE | S_INPUT)::EventCategory)
     end
 
     struct MouseButtonEventData <: EventData
-        type 
-        code::UInt16
-        category
+        type::Event.EventType
+        code::Cint
+        category::Event.EventCategory
 
-        MouseButtonEventData(type, code) = new(type, code, (S_MOUSE | S_INPUT)::EventCategory)
+        MouseButtonEventData(type::Event.EventType, code::Cint) = new(type, code, (S_MOUSE | S_INPUT)::EventCategory)
     end
 
     struct MouseScrollEventData <: EventData
-        type
+        type::Event.EventType
         scrollX::Float64
         scrollY::Float64
-        category
+        category::Event.EventCategory
 
-        MouseScrollEventData(scrollX, scrollY) = new(EventTypeMouseScrolled, scrollX, scrollY, (S_MOUSE | S_INPUT)::EventCategory)
+        MouseScrollEventData(scrollX::Float64, scrollY::Float64) = new(EventTypeMouseScrolled, scrollX, scrollY, (S_MOUSE | S_INPUT)::EventCategory)
     end
 
 # module

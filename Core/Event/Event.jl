@@ -39,7 +39,7 @@ function RegisterListener(e::Function)
   append!(mListeners, [e])
 end
 
-function Dispatch(e)
+function Dispatch(e::EventData)
   for l::Function in mListeners
       l(e)
   end

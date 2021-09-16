@@ -2,7 +2,7 @@ module EventDispatcher
 
 import Event
 
-function DispatchEvent(eventData, eventType, fnc)
+function DispatchEvent(eventData::Event.EventData, eventType::Event.EventType, fnc)
     eventData.type == eventType && fnc(eventData)
 end
 

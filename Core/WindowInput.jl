@@ -8,9 +8,9 @@ export RegisterInputCallbacks
 
 function OnKeyCallback(window::GLFW.Window, key::GLFW.Key, scancode::Cint, action::GLFW.Action, mods::Cint)
     if (action == GLFW.PRESS)
-        Event.Dispatch(Event.KeyEventData(Event.EventTypeKeyPressed, UInt16(key), 0))
+        Event.Dispatch(Event.KeyEventData(Event.EventTypeKeyPressed, Cint(key), Cint(0)))
     elseif (action == GLFW.RELEASE)
-        Event.Dispatch(Event.KeyEventData(Event.EventTypeKeyReleased, UInt16(key), 0))
+        Event.Dispatch(Event.KeyEventData(Event.EventTypeKeyReleased, Cint(key), Cint(0)))
     end
 end
 
@@ -20,9 +20,9 @@ end
 
 function OnMouseButtonCallback(window::GLFW.Window, button::GLFW.MouseButton, action::GLFW.Action, mods::Cint)
     if (action == GLFW.PRESS)
-        Event.Dispatch(Event.MouseButtonEventData(Event.EventTypeMouseButtonPressed, UInt16(button)))
+        Event.Dispatch(Event.MouseButtonEventData(Event.EventTypeMouseButtonPressed, Cint(button)))
     else (action == GLFW.RELEASE)
-        Event.Dispatch(Event.MouseButtonEventData(Event.EventTypeMouseButtonReleased, UInt16(button)))
+        Event.Dispatch(Event.MouseButtonEventData(Event.EventTypeMouseButtonReleased, Cint(button)))
     end
 end
 

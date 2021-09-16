@@ -1,12 +1,12 @@
 @eval Event begin
 
     struct KeyEventData <: EventData
-        type
-        code::UInt16
-        repeat::UInt32
-        category
+        type::Event.EventType
+        code::Cint
+        repeat::Cint
+        category::Event.EventCategory
     
-        KeyEventData(type, code, repeat) = new(type, code, repeat, (Event.S_KEYBOARD | Event.S_INPUT)::Event.EventCategory)
+        KeyEventData(type::Event.EventType, code::Cint, repeat::Cint) = new(type, code, repeat, (Event.S_KEYBOARD | Event.S_INPUT)::Event.EventCategory)
     end
 
 end
