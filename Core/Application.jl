@@ -1,7 +1,6 @@
 module Application
 
 using ModernGL
-import GLFW
 
 import Logger
 import Window
@@ -16,12 +15,7 @@ function Run()
         Window.Update()
         glClearColor(0.2, 0.3, 0.3, 1.0)
         glClear(GL_COLOR_BUFFER_BIT)
-
-        if (Input.IsKeyPressed(Cint(GLFW.KEY_A)))
-            println("ASD")
-        end
     end
-
     Shutdown()
 end
 

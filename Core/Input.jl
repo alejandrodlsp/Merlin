@@ -2,8 +2,8 @@ module Input
 
 import GLFW
 import Window
-import KeyCode
-import MouseCode
+include("KeyCode.jl")
+include("MouseCode.jl")
 
 export IsKeyPressed, IsMouseButtonPressed, GetMousePos, GetMouseX, GetMouseY
 
