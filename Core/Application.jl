@@ -1,38 +1,43 @@
-module Application
+include("Window.jl")
+include("Logger.jl")
 
 using ModernGL
 
-import Logger
-import Window
+struct ApplicationParams
+    windowWidth::Cint
+    windowHeight::Cint
+    windowName::String
+    eventCallback::Function
+    ApplicationParams(;width::Int, height::Int, name::String, eventCallback::Function=(e) -> ()) = new(Cint(width), Cint(height), name, eventCallback)
+end
 
-mCloseRequested = false
+struct ApplicationData
+    EventCallback::Function
+    windowData::WindowData
+    loggerData::LoggerData
+end
 
-function Run()
-    Init()
+function Application_Init(params::ApplicationParams)::ApplicationData
+    loggerData = Logger_Init()
+    windowData = Window_Init(WindowProps(params.windowWidth, params.windowHeight, params.windowName, params.eventCallback))
+    ApplicationData(params.eventCallback, windowData, loggerData)
+end
 
-    while !ShouldClose()
-        Window.Update()
+function Application_Run(applicationData::ApplicationData)
+    while !Application_ShouldClose(applicationData)
+        Window_Update(applicationData.windowData)
         glClearColor(0.2, 0.3, 0.3, 1.0)
         glClear(GL_COLOR_BUFFER_BIT)
     end
     
-    Shutdown()
+    Application_Shutdown(applicationData)
 end
 
-function Init()
-    Logger.Init()
-    Window.Init(Window.WindowProps(UInt16(1200), UInt16(800), "Merlin Engine"))
+function Application_Shutdown(applicationData::ApplicationData)
+    Window_Shutdown(applicationData.windowData)
+    Logger_Shutdown(applicationData.loggerData)
 end
 
-function Shutdown()
-    mCloseRequested = true
-    Window.Shutdown()
-    Logger.Shutdown()
-end
-
-function ShouldClose()
-    mCloseRequested || Window.ShouldClose()
-end
-
-# module
+function Application_ShouldClose(applicationData::ApplicationData)
+    Window_ShouldClose(applicationData.windowData)
 end

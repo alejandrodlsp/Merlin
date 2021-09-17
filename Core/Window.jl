@@ -1,13 +1,7 @@
-module Window
+include("WindowInput.jl")
 
 import GLFW, ModernGL
 import Base:String, UInt
-import WindowInput
-
-export WindowProps, GetNativeWindow, Init, Shutdown, Update, ShouldClose
-
-mNativeWindow = missing
-mMonitor = missing
 
 struct WindowException <: Exception
     var::String
@@ -17,66 +11,57 @@ struct WindowProps
     width::UInt16
     height::UInt16
     name::String
-    
-    # Default constructor
-    WindowProps() = new(1200, 512, "Julia Engine Window")
-    WindowProps(Width::UInt16, Height::UInt16, Name::String) = new(Width, Height, Name)
+    eventCallback::Function
 end
 
-function Init(props::WindowProps=WindowProps())
+struct WindowData
+    NativeWindow::GLFW.Window
+end
+
+function Window_Init(props::WindowProps)::WindowData
     try
+        @debug "Initializating window context"
         GLFW.Init() != true && thrown(WindowException("Failed to initialize GLFW"))
 
         GLFW.WindowHint(GLFW.CONTEXT_VERSION_MAJOR, 3)
         GLFW.WindowHint(GLFW.CONTEXT_VERSION_MINOR, 3)
         GLFW.WindowHint(GLFW.OPENGL_PROFILE, GLFW.OPENGL_CORE_PROFILE)
         GLFW.WindowHint(GLFW.OPENGL_FORWARD_COMPAT, true)
-    
-        global mMonitor = GLFW.GetPrimaryMonitor()
+  
+        @debug "Creating GLFW window context"
+        nativeWindow = GLFW.CreateWindow(props.width, props.height, props.name)
+        nativeWindow == C_NULL && thrown(WindowException("Failed to create GLFW window context"))
 
-        global mNativeWindow = GLFW.CreateWindow(props.width, props.height, props.name)
-        mNativeWindow == C_NULL && thrown(WindowException("Failed to create GLFW window context"))
+        GLFW.MakeContextCurrent(nativeWindow)
 
-        GLFW.MakeContextCurrent(mNativeWindow)
-    
-        WindowInput.RegisterInputCallbacks(mNativeWindow)
+        WindowInput_RegisterInputCallbacks(nativeWindow, props.eventCallback)
+
+        @debug "Window initialization complete"
+        return WindowData(nativeWindow)
     catch e
         Shutdown()
         @error "Error encountered when setting up window: " e
     end
 end
 
-function Update()
+function Window_Update(windowData::WindowData)
     GLFW.PollEvents()
-    GLFW.SwapBuffers(mNativeWindow)
+    GLFW.SwapBuffers(windowData.NativeWindow)
 end
 
-function Shutdown()
-    GLFW.DestroyWindow(mNativeWindow)
+function Window_Shutdown(windowData::WindowData)
+    @debug "Shutting down GLFW window context"
+    GLFW.DestroyWindow(windowData.NativeWindow)
 end
 
-function ShouldClose()
-    GLFW.WindowShouldClose(mNativeWindow)
-end
-
-function GetNativeWindow()
-    mNativeWindow
-end
-
-function SetFullscreen(fullscreen::Bool)
-    if fullscreen
-        GLFW.make_fullscreen(mNativeWindow, mMonitor)
-    else
-        GLFW.make_windowed(mNativeWindow)
-    end
+function Window_ShouldClose(windowData::WindowData)::Bool
+    GLFW.WindowShouldClose(windowData.NativeWindow)
 end
 
 # 
 # Mode: [ GLFW.CURSOR_DISABLED, GLFW.CURSOR_HIDDEN, GLFW.CURSOR_NORMAL ]
 # 
-function SetCursorMode(mode::UInt32)
-    GLFW.SetInputMode(mNativeWindow, GLFW.CURSOR, mode)
-end
-
-# module
+function SetCursorMode(windowData::WindowData, mode::UInt32)
+    @debug "Window cursor mode changed to: " mode
+    GLFW.SetInputMode(windowData.NativeWindow, GLFW.CURSOR, mode)
 end

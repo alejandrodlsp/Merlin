@@ -1,57 +1,52 @@
-module WindowInput
+include("Event/Event.jl")
 
 import GLFW
 using ModernGL
-import Event
 
-export RegisterInputCallbacks
-
-function OnKeyCallback(window::GLFW.Window, key::GLFW.Key, scancode::Cint, action::GLFW.Action, mods::Cint)
+function WindowInput_OnKeyCallback(eventContext::Function, window::GLFW.Window, key::GLFW.Key, scancode::Cint, action::GLFW.Action, mods::Cint)
     if (action == GLFW.PRESS)
-        Event.Dispatch(Event.KeyEventData(Event.EventTypeKeyPressed, Cint(key), Cint(0)))
+        eventContext(KeyEventData(EventTypeKeyPressed, Cint(key), Cint(0)))
     elseif (action == GLFW.RELEASE)
-        Event.Dispatch(Event.KeyEventData(Event.EventTypeKeyReleased, Cint(key), Cint(0)))
+        eventContext(KeyEventData(EventTypeKeyReleased, Cint(key), Cint(0)))
     end
 end
 
-function OnMouseMovedCallback(window::GLFW.Window, xpos::Cdouble, ypos::Cdouble)
-    Event.Dispatch(Event.MouseMovedEventData(Float64(xpos), Float64(ypos)))
+function WindowInput_OnMouseMovedCallback(eventContext::Function, window::GLFW.Window, xpos::Cdouble, ypos::Cdouble)
+    eventContext(MouseMovedEventData(Float64(xpos), Float64(ypos)))
 end
 
-function OnMouseButtonCallback(window::GLFW.Window, button::GLFW.MouseButton, action::GLFW.Action, mods::Cint)
+function WindowInput_OnMouseButtonCallback(eventContext::Function, window::GLFW.Window, button::GLFW.MouseButton, action::GLFW.Action, mods::Cint)
     if (action == GLFW.PRESS)
-        Event.Dispatch(Event.MouseButtonEventData(Event.EventTypeMouseButtonPressed, Cint(button)))
+        eventContext(MouseButtonEventData(EventTypeMouseButtonPressed, Cint(button)))
     else (action == GLFW.RELEASE)
-        Event.Dispatch(Event.MouseButtonEventData(Event.EventTypeMouseButtonReleased, Cint(button)))
+        eventContext(MouseButtonEventData(EventTypeMouseButtonReleased, Cint(button)))
     end
 end
 
-function OnMouseScrollCallback(window::GLFW.Window, offsetX::Cdouble, offsetY::Cdouble)
-    Event.Dispatch(Event.MouseScrollEventData(Float64(offsetX), Float64(offsetY)))
+function WindowInput_OnMouseScrollCallback(eventContext::Function, window::GLFW.Window, offsetX::Cdouble, offsetY::Cdouble)
+    eventContext(MouseScrollEventData(Float64(offsetX), Float64(offsetY)))
 end
 
-function OnWindowCloseCallback(window::GLFW.Window)
-    Event.Dispatch(Event.WindowCloseEvent())
+function WindowInput_OnWindowCloseCallback(eventContext::Function, window::GLFW.Window)
+    eventContext(WindowCloseEventData())
 end
 
-function OnWindowSizeCallback(window::GLFW.Window, width::Cint, height::Cint)
+function WindowInput_OnWindowSizeCallback(eventContext::Function, window::GLFW.Window, width::Cint, height::Cint)
     glViewport(0, 0, width, height) # TODO: Move viewport resize call to renderer
-    Event.Dispatch(Event.WindowSizeEvent(width, height))
+    eventContext(WindowSizeEventData(width, height))
 end
 
-function OnWindowMovedCallback(window::GLFW.Window, posx::Cint, posy::Cint)
-    Event.Dispatch(Event.WindowMovedEvent(posx, posy))
+function WindowInput_OnWindowMovedCallback(eventContext::Function, window::GLFW.Window, posx::Cint, posy::Cint)
+    eventContext(WindowMovedEventData(posx, posy))
 end
 
-function RegisterInputCallbacks(window::GLFW.Window)
-    GLFW.SetKeyCallback(window, OnKeyCallback)
-    GLFW.SetCursorPosCallback(window, OnMouseMovedCallback)
-    GLFW.SetMouseButtonCallback(window, OnMouseButtonCallback)
-    GLFW.SetScrollCallback(window, OnMouseScrollCallback)
-    GLFW.SetWindowCloseCallback(window, OnWindowCloseCallback)
-    GLFW.SetFramebufferSizeCallback(window, OnWindowSizeCallback)
-    GLFW.SetWindowPosCallback(window, OnWindowMovedCallback)
-end
-
-# module
+function WindowInput_RegisterInputCallbacks(window::GLFW.Window, eventContext::Function)
+    @debug "Registering window event callbacks"
+    GLFW.SetKeyCallback(window, (w, k, s, a, m) -> WindowInput_OnKeyCallback(eventContext, w, k, s, a, m))
+    GLFW.SetCursorPosCallback(window, (w, x, y) -> WindowInput_OnMouseMovedCallback(eventContext, w, x, y))
+    GLFW.SetMouseButtonCallback(window, (w, b, a, m) -> WindowInput_OnMouseButtonCallback(eventContext, w, b, a, m))
+    GLFW.SetScrollCallback(window, (w, x, y) -> WindowInput_OnMouseScrollCallback(eventContext, w, x, y))
+    GLFW.SetWindowCloseCallback(window, (w) -> WindowInput_OnWindowCloseCallback(eventContext, w))
+    GLFW.SetFramebufferSizeCallback(window, (w, wi, he) -> WindowInput_OnWindowSizeCallback(eventContext, w, wi, he))
+    GLFW.SetWindowPosCallback(window, (w, x, y) -> WindowInput_OnWindowMovedCallback(eventContext, w, x, y))
 end
