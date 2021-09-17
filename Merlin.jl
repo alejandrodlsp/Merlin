@@ -1,15 +1,11 @@
-push!(LOAD_PATH, pwd() * "/Core")
-push!(LOAD_PATH, pwd() * "/Core/Event")
-push!(LOAD_PATH, pwd() * "/Core/Lib")
-
-# Precompile packages
-import Pkg
-Pkg.precompile()
-
+using Base:String
 # Load environment variables
 using ConfigEnv
 dotenv()
 
 # Include main application
 include("Core/Application.jl")
-Application.Run()
+
+# App loop
+app = Application_Init(ApplicationParams(width=1500, height=1500, name="Merlin Engine", eventCallback=(e) -> println(e.type)))
+Application_Run(app)

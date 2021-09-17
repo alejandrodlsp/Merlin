@@ -1,34 +1,24 @@
-@eval Event begin
+using Base:Float64
 
-    using Base:Float64
+struct MouseMovedEventData <: EventData
+    type::EventType
+    posx::Float64
+    posy::Float64
 
-    export MouseMovedEventData, MouseButtonEventData, MouseScrollEventData
+    MouseMovedEventData(posx::Float64, posy::Float64) = new(EventTypeMouseMoved, posx, posy)
+end
 
-    struct MouseMovedEventData <: EventData
-        type::Event.EventType
-        posx::Float64
-        posy::Float64
-        category::Event.EventCategory
+struct MouseButtonEventData <: EventData
+    type::EventType
+    code::Cint
 
-        MouseMovedEventData(posx::Float64, posy::Float64) = new(EventTypeMouseMoved, posx, posy, (S_MOUSE | S_INPUT)::EventCategory)
-    end
+    MouseButtonEventData(type::EventType, code::Cint) = new(type, code)
+end
 
-    struct MouseButtonEventData <: EventData
-        type::Event.EventType
-        code::Cint
-        category::Event.EventCategory
+struct MouseScrollEventData <: EventData
+    type::EventType
+    scrollX::Float64
+    scrollY::Float64
 
-        MouseButtonEventData(type::Event.EventType, code::Cint) = new(type, code, (S_MOUSE | S_INPUT)::EventCategory)
-    end
-
-    struct MouseScrollEventData <: EventData
-        type::Event.EventType
-        scrollX::Float64
-        scrollY::Float64
-        category::Event.EventCategory
-
-        MouseScrollEventData(scrollX::Float64, scrollY::Float64) = new(EventTypeMouseScrolled, scrollX, scrollY, (S_MOUSE | S_INPUT)::EventCategory)
-    end
-
-# module
+    MouseScrollEventData(scrollX::Float64, scrollY::Float64) = new(EventTypeMouseScrolled, scrollX, scrollY)
 end

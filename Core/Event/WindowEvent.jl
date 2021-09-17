@@ -1,28 +1,21 @@
-@eval Event begin
+struct WindowCloseEventData <: EventData
+    type::EventType
 
-    struct WindowCloseEvent <: EventData
-        type::Event.EventType
-        category::Event.EventCategory
-  
-        WindowCloseEvent() = new(Event.EventTypeWindowClose, (Event.S_WINDOW)::Event.EventCategory)
-    end
+    WindowCloseEventData() = new(EventTypeWindowClose)
+end
 
-    struct WindowSizeEvent <: EventData
-        type::Event.EventType
-        sizex::Cint
-        sizey::Cint
-        category::Event.EventCategory
+struct WindowSizeEventData <: EventData
+    type::EventType
+    sizex::Cint
+    sizey::Cint
 
-        WindowSizeEvent(sizex::Cint, sizey::Cint) = new(Event.EventTypeWindowResize, sizex, sizey, (Event.S_WINDOW)::Event.EventCategory)
-    end
+    WindowSizeEventData(sizex::Cint, sizey::Cint) = new(EventTypeWindowResize, sizex, sizey)
+end
 
-    struct WindowMovedEvent <: EventData
-        type::Event.EventType
-        posx::Cint
-        posy::Cint
-        category::Event.EventCategory
+struct WindowMovedEventData <: EventData
+    type::EventType
+    posx::Cint
+    posy::Cint
 
-        WindowMovedEvent(posx::Cint, posy::Cint) = new(Event.EventTypeWindowMoved, posx, posy, (Event.S_WINDOW)::Event.EventCategory)
-    end
-
+    WindowMovedEventData(posx::Cint, posy::Cint) = new(EventTypeWindowMoved, posx, posy)
 end
