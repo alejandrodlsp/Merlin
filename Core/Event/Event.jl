@@ -25,5 +25,7 @@ include("MouseEvent.jl")
 include("WindowEvent.jl")
 
 function Event_Dispatch(eventData::EventData, eventType::EventType, fnc)
-  eventData.type == eventType && fnc(eventData)
-end
+  if (eventData.type == eventType)
+    fnc(eventData)
+  end
+end        
