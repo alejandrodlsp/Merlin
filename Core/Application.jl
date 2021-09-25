@@ -1,26 +1,54 @@
-include("Window.jl")
+include("Resource/Resource.jl")
 include("Logger.jl")
+include("Window.jl")
 
 using ModernGL
+using ConfigEnv
 
 struct ApplicationParams
-    windowWidth::Cint
-    windowHeight::Cint
+    windowSize::Tuple{Cint,Cint}
+    maxWindowSize::Tuple{Cint,Cint}
+    minWindowSize::Tuple{Cint,Cint}
+    windowFullscreen::Bool
     windowName::String
-    eventCallback::Function
-    ApplicationParams(;width::Int, height::Int, name::String, eventCallback::Function=(e) -> ()) = new(Cint(width), Cint(height), name, eventCallback)
+    onEvent::Function
+    ApplicationParams( ;WindowSize::Tuple{Cint,Cint}=(Cint(800), Cint(800)), 
+                        MaxWindowSize::Tuple{Cint,Cint}=(Cint(0), Cint(0)),
+                        MinWindowSize::Tuple{Cint,Cint}=(Cint(0), Cint(0)),
+                        Fullscreen::Bool=false,
+                        OnEvent::Function=(e) -> (),
+                        Name::String="Merlin Engine application") = new(
+                          WindowSize,
+                          MaxWindowSize,
+                          MinWindowSize,
+                          Fullscreen, 
+                          Name,
+                          OnEvent
+                        )
 end
 
 struct ApplicationData
-    EventCallback::Function
     windowData::WindowData
     loggerData::LoggerData
 end
 
 function Application_Init(params::ApplicationParams)::ApplicationData
+    # Load .env variables  
+    dotenv()
+
     loggerData = Logger_Init()
-    windowData = Window_Init(WindowProps(params.windowWidth, params.windowHeight, params.windowName, params.eventCallback))
-    ApplicationData(params.eventCallback, windowData, loggerData)
+    Resource_Init()
+
+    windowData = Window_Init( WindowProps(
+      params.windowSize,
+      params.maxWindowSize,
+      params.minWindowSize,
+      params.windowFullscreen,
+      params.windowName,
+      params.onEvent
+    ) )
+
+    ApplicationData(windowData, loggerData)
 end
 
 function Application_Run(applicationData::ApplicationData)
