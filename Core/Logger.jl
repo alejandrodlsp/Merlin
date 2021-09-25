@@ -1,7 +1,7 @@
 using Logging
 
-macro assert(ex)
-    return :( $ex ? nothing : throw(AssertionError($(string(ex)))) )
+macro assert(ex, x)
+    return :( $ex ? nothing : @error x )
 end
 
 struct LoggerData
