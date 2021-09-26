@@ -12,24 +12,32 @@ struct ApplicationParams
     windowFullscreen::Bool
     windowName::String
     onEvent::Function
+    onUpdate::Function
+    onRender::Function
     ApplicationParams( ;WindowSize::Tuple{Cint,Cint}=(Cint(800), Cint(800)), 
                         MaxWindowSize::Tuple{Cint,Cint}=(Cint(0), Cint(0)),
                         MinWindowSize::Tuple{Cint,Cint}=(Cint(0), Cint(0)),
                         Fullscreen::Bool=false,
                         OnEvent::Function=(e) -> (),
+                        OnUpdate::Function=() -> (),
+                        OnRender::Function=() -> (),
                         Name::String="Merlin Engine application") = new(
                           WindowSize,
                           MaxWindowSize,
                           MinWindowSize,
                           Fullscreen, 
                           Name,
-                          OnEvent
+                          OnEvent,
+                          OnUpdate,
+                          OnRender
                         )
 end
 
 struct ApplicationData
     windowData::WindowData
     loggerData::LoggerData
+    onUpdate::Function
+    onRender::Function
 end
 
 function Application_Init(params::ApplicationParams)::ApplicationData
@@ -48,14 +56,17 @@ function Application_Init(params::ApplicationParams)::ApplicationData
       params.onEvent
     ) )
 
-    ApplicationData(windowData, loggerData)
+    ApplicationData(windowData, loggerData, params.onUpdate, params.onRender)
 end
 
 function Application_Run(applicationData::ApplicationData)
     while !Application_ShouldClose(applicationData)
-        Window_Update(applicationData.windowData)
+        applicationData.onUpdate()
+
         glClearColor(0.2, 0.3, 0.3, 1.0)
         glClear(GL_COLOR_BUFFER_BIT)
+        applicationData.onRender()
+        Window_Update(applicationData.windowData)
     end
     
     Application_Shutdown(applicationData)
