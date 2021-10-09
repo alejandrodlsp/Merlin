@@ -4,6 +4,10 @@ import GLFW, ModernGL
 import Base:String, UInt
 using FileIO
 
+# Define resource pool only if not already defined
+(@isdefined WINDOW_DATA) || ( WINDOW_DATA = nothing )
+
+
 struct WindowException <: Exception
     var::String
 end
@@ -54,11 +58,11 @@ function Window_Init(props::WindowProps)::WindowData
           iszero(props.maxWindowSize[2]) ? GLFW.DONT_CARE : props.maxWindowSize[2]);
 
         
-    win_data::WindowData = WindowData(nativeWindow)
-    Window_SetIcon(win_data)
+    WINDOW_DATA::WindowData = WindowData(nativeWindow)
+    Window_SetIcon(WINDOW_DATA)
 
     @debug "Window initialization complete"
-    WindowData(nativeWindow)
+    WINDOW_DATA
 end
 
 function Window_Update(windowData::WindowData)
@@ -86,8 +90,7 @@ function Window_SetIcon(windowData::WindowData)
       @info "Did not load window icon, resources folder not found. Did you create a /Icon/icon.png folder in your resources directory?"
     end
 
-    icon = Texture_Load("Resources/Icon/icon.png").data
-    Texture_Load("Resources/Icon/icon.png")
+    icon = TextureResource_Load("Resources/Icon/icon.png").data
     
     buffs = reinterpret(NTuple{4,UInt8}, icon)
     

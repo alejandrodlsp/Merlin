@@ -1,6 +1,7 @@
 include("Resource/Resource.jl")
 include("Logger.jl")
 include("Window.jl")
+include("Renderer/Renderer.jl")
 
 using ModernGL
 using ConfigEnv
@@ -60,12 +61,14 @@ function Application_Init(params::ApplicationParams)::ApplicationData
 end
 
 function Application_Run(applicationData::ApplicationData)
+    glClearColor(0.2, 0.3, 0.3, 1.0)
+
     while !Application_ShouldClose(applicationData)
         applicationData.onUpdate()
 
-        glClearColor(0.2, 0.3, 0.3, 1.0)
-        glClear(GL_COLOR_BUFFER_BIT)
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
         applicationData.onRender()
+
         Window_Update(applicationData.windowData)
     end
     
@@ -75,6 +78,7 @@ end
 function Application_Shutdown(applicationData::ApplicationData)
     Window_Shutdown(applicationData.windowData)
     Logger_Shutdown(applicationData.loggerData)
+    ResPool_Flush()
 end
 
 function Application_ShouldClose(applicationData::ApplicationData)

@@ -2,6 +2,7 @@ abstract type ResourceData end
 
 include("ResourcePool.jl")
 include("TextureResource.jl")
+include("ProgramResource.jl")
 
 function Resource_Init(resource_file_path::String=Resource_ResFilePath())
   # TODO: parse resource file to create resources

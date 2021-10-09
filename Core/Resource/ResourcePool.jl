@@ -32,3 +32,7 @@ function ResPool_Unregister(resource_path::String)
     @debug "Unloading resource at (" resource_path ") in resource pool"
     delete!(RESOURCE_POOL.loaded_resources, resource_path)
 end
+
+function ResPool_Flush()
+    RESOURCE_POOL = nothing
+end
