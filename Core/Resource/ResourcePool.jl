@@ -2,8 +2,11 @@ mutable struct ResourcePoolData
     loaded_resources::Dict{String,ResourceData}
 end
 
-# Define resource pool only if not already defined
-(@isdefined RESOURCE_POOL) || ( RESOURCE_POOL = ResourcePoolData(Dict{String,ResourceData}()) )
+(@isdefined RESOURCE_POOL) || (RESOURCE_POOL = ResourcePoolData(Dict{String,ResourceData}()))
+if isnothing(RESOURCE_POOL)
+    global RESOURCE_POOL 
+    RESOURCE_POOL = ResourcePoolData(Dict{String,ResourceData}())
+end
 
 function ResPool_Exists(resource_path::String)
     haskey(RESOURCE_POOL.loaded_resources, resource_path)
@@ -34,5 +37,6 @@ function ResPool_Unregister(resource_path::String)
 end
 
 function ResPool_Flush()
+    global RESOURCE_POOL
     RESOURCE_POOL = nothing
 end
