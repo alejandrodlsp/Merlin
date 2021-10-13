@@ -9,9 +9,15 @@ end
 # App create
 app = Application_Init(ApplicationParams(OnRender=render))
 
-triangle = Triangle_Create(GLfloat[ 0.0,  0.5, 0.0,
-                                    0.5, -0.5, 0.0,
-                                    -0.5, -0.5, 0.0])
+points = GLfloat[ 0.0,  0.5, 0.0,
+                  0.5, -0.5, 0.0,
+                  -0.5, -0.5, 0.0]
+                  
+colors = GLfloat[ 1.0, 0.0, 0.0,
+                  0.0, 1.0, 0.0,
+                  0.0, 0.0, 1.0]
+
+triangle = Triangle_Create(points, colors)
 
 # App run
 Application_Run(app)
