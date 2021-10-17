@@ -56,7 +56,7 @@
 
 ## About The Project
 
-<img src="Images/Capture.PNG" alt="capture" width="400" height="113">
+<img src="Images/Capture.PNG" alt="capture">
 
 Merlin is a game engine API based on the [Julia programming language](https://julialang.org). This engine is part of my final year project for Computer Games Development at University of Limerick, supervised by Dr. Patrick Healy
 
