@@ -30,7 +30,6 @@
 
 <br/>
 <!-- TABLE OF CONTENTS -->
-<details>
   <summary>Table of Contents</summary>
   <ol>
     <li>
@@ -50,17 +49,14 @@
     <li><a href="#license">License</a></li>
     <li><a href="#contact">Contact</a></li>
   </ol>
-</details>
 <br/>
 <!-- ABOUT THE PROJECT -->
 
 ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+<img src="Images/Capture.PNG" alt="capture">
 
 Merlin is a game engine API based on the [Julia programming language](https://julialang.org). This engine is part of my final year project for Computer Games Development at University of Limerick, supervised by Dr. Patrick Healy
-
-Use the `BLANK_README.md` to get started.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
