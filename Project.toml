@@ -1,7 +1,8 @@
 name = "Merlin"
+uuid = "05e85409-ecdc-41c6-bd33-0a479d9b9d72"
+authors = ["alejandro <alejandrodlsp@hotmail.es>"]
 version = "0.1.0"
-authors = ["Alejandro de los Santos <alejandrodlsp@hotmail.es>"]
-uuid = "d3849f62-8a63-4cb5-8b3a-ebe6b6e921ba"
+
 
 [deps]
 ArgTools = "0dad84c5-d112-42e6-8d28-ef12dabb789f"
