@@ -174,7 +174,6 @@ _For more examples, please refer to the [Documentation](https://example.com)_
 
 See `LICENSE.txt` for more information.
 
-
 <!-- CONTACT -->
 
 ## Contact
@@ -188,16 +187,16 @@ Project Link: [https://github.com/alejandrodlsp/merlin](https://github.com/aleja
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
+[contributors-shield]: https://img.shields.io/github/contributors/alejandrodlsp/grogu-bot.svg?style=flat
+[contributors-url]: https://github.com/alejandrodlsp/grogu-bot/graphs/contributors
+[forks-shield]: https://img.shields.io/github/forks/alejandrodlsp/grogu-bot.svg?style=flat
+[forks-url]: https://github.com/alejandrodlsp/grogu-bot/network/members
+[stars-shield]: https://img.shields.io/github/stars/alejandrodlsp/grogu-bot.svg?style=flat
+[stars-url]: https://github.com/alejandrodlsp/grogu-bot/stargazers
+[issues-shield]: https://img.shields.io/github/issues/alejandrodlsp/grogu-bot.svg?style=flat
+[issues-url]: https://github.com/alejandrodlsp/grogu-bot/issues
+[license-shield]: https://img.shields.io/github/license/alejandrodlsp/grogu-bot.svg?style=flat
+[license-url]: https://github.com/alejandrodlsp/grogu-bot/blob/master/LICENSE.txt
+[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=flat&logo=linkedin&colorB=555
+[linkedin-url]: https://www.linkedin.com/in/alejandro-de-los-santos-84152916b/
 [product-screenshot]: images/Capture.png

@@ -61,7 +61,7 @@ function Application_Init(params::ApplicationParams)::ApplicationData
 end
 
 function Application_Run(applicationData::ApplicationData)
-    glClearColor(0.2, 0.3, 0.3, 1.0)
+    glClearColor(0.1, 0.1, 0.1, 1.0)
 
     while !Application_ShouldClose(applicationData)
         applicationData.onUpdate()
