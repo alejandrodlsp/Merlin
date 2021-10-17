@@ -1,6 +1,4 @@
 using Base:String
-include("../Renderer/Shader.jl")
-include("../Renderer/Program.jl")
 
 struct ProgramResourceData <: ResourceData
     path::String

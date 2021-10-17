@@ -1,7 +1,7 @@
+include("Renderer/Renderer.jl")
 include("Resource/Resource.jl")
 include("Logger.jl")
 include("Window.jl")
-include("Renderer/Renderer.jl")
 
 using ModernGL
 using ConfigEnv
