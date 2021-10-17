@@ -6,6 +6,9 @@ include("Renderer/Renderer.jl")
 using ModernGL
 using ConfigEnv
 
+"""
+    
+"""
 struct ApplicationParams
     windowSize::Tuple{Cint,Cint}
     maxWindowSize::Tuple{Cint,Cint}
