@@ -1,33 +1,26 @@
-module Input
-
 import GLFW
-import Window
+
 include("KeyCode.jl")
 include("MouseCode.jl")
 
-export IsKeyPressed, IsMouseButtonPressed, GetMousePos, GetMouseX, GetMouseY
-
-function IsKeyPressed(keycode)
-    GLFW.GetKey(Window.GetNativeWindow(), Cint(keycode))
+function Input_IsKeyPressed(keycode::KeyCode)
+    GLFW.GetKey(WINDOW_DATA, Cint(keycode))
 end
 
-function IsMouseButtonPressed(button)
-    GLFW.GetMouseButton(Window.GetNativeWindow(), Cint(button))
+function Input_IsMouseButtonPressed(button::MouseCode)
+    GLFW.GetMouseButton(WINDOW_DATA, Cint(button))
 end
 
-function GetMousePos()
-    GLFW.GetCursorPos(Window.GetMativeWindow())
+function Input_GetMousePos()
+    GLFW.GetCursorPos(WINDOW_DATA)
 end
 
-function GetMouseX()
-    x, y = GLFW.GetCursorPos(Window.GetMativeWindow())
+function Input_GetMouseX()
+    x, _ = GLFW.GetCursorPos(WINDOW_DATA)
     x
 end
 
-function GetMouseY()
-    x, y = GLFW.GetCursorPos(Window.GetMativeWindow())
+function Input_GetMouseY()
+    _, y = GLFW.GetCursorPos(WINDOW_DATA)
     y
-end
-
-# module
 end
